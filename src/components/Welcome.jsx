@@ -6,7 +6,7 @@ export default function Welcome({isLoggedIn, setIsLoggedIn}) {
     const [username, setUsername] = useState('');
     const {setUser, setTodos} = useContext(TodoContext)
     const [error, setError] = useState('')
-    const activeSession = JSON.parse(localStorage.getItem('activeSession')) || []
+    const [activeSession, setActive] = useState(JSON.parse(localStorage.getItem('activeSession')) || [])
     useEffect(() => {
         localStorage.removeItem("")
     })
@@ -47,6 +47,12 @@ export default function Welcome({isLoggedIn, setIsLoggedIn}) {
             as: e.target.textContent
         })
     }
+    function deleteSession(user) {
+        const temp = activeSession.filter(session => session !== user)
+        localStorage.setItem('activeSession', JSON.stringify(temp))
+        localStorage.removeItem(user)
+        setActive(temp)
+    }
     return (
         <div className="welcome-container">
             <img className="logo-landing" src={logo} alt=""/>
@@ -65,11 +71,16 @@ export default function Welcome({isLoggedIn, setIsLoggedIn}) {
                     {activeSession.length ? (
                         <>
                             {activeSession.map(user => (
-                                <div className="user" onClick={setActiveSession} key={user}>{user}</div>
+                                <div className="user-click" key={user}>
+                                    <div className="user" onClick={setActiveSession} >
+                                        <p>{user}</p>
+                                    </div>
+                                    <span onClick={e => deleteSession(user)} className="fas fa-trash"></span>
+                                </div>
                             ))}
                         </>
                     ) : (
-                        <p className="user">No Sessions</p>
+                        <p className="user-click">No Sessions</p>
                     ) }
                     </>
                 </>

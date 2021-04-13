@@ -4,22 +4,29 @@ import Dropdown from "./Dropdown";
 import { TodoContext } from "../contexts/TodoContext";
 import Header from "./Header";
 export default function TodoApp() {
-  const { todos, setTodos } = useContext(TodoContext);
+  const { todos, setTodos, arrangeTodos } = useContext(TodoContext);
   const [todo, setTodo] = useState("");
   const [color, setColor] = useState("");
   const [selected, setSelected] = useState("Choose one");
+  const [error, setError] = useState('')
   function clearState() {
     setTodo("");
     setColor("");
     setSelected("Choose One");
+    setError('')
     document.querySelectorAll(".color-button").forEach((btn) => {
       btn.classList.remove("active");
     });
   }
   function verifyData() {
-    if (todo !== "" && color !== "" && selected !== "Choose One") {
+    if(todo.length > 50) {
+      setError('Todo should not be greater than 50 characters')
+      return false
+    }
+    else if (todo !== "" && color !== "" && selected !== "Choose one") {
       return true;
-    } else {
+    } 
+    else {
       return false;
     }
   }
@@ -33,7 +40,8 @@ export default function TodoApp() {
         selected,
         completed: false
       };
-      setTodos([...todos, temp]);
+
+      arrangeTodos([...todos, temp]) 
       clearState();
     } else return;
   }
@@ -44,10 +52,13 @@ export default function TodoApp() {
         <input
           type="text"
           value={todo}
-          placeholder="enter todo"
+          placeholder="Enter Todo [50 chars]"
           autoComplete="off"
-          onChange={(e) => setTodo(e.target.value)}
+          onChange={(e) => {
+            setTodo(e.target.value)
+          }}
         />
+        {error && <span className="error">{error}</span>}
         <ColorChooser setColor={setColor} />
         <Dropdown selected={selected} setSelected={setSelected} />
         <button className="btn-submit">ADD TODO</button>
