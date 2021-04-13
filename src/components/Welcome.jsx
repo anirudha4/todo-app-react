@@ -5,12 +5,20 @@ import logo from '../logo.svg'
 export default function Welcome({isLoggedIn, setIsLoggedIn}) {
     const [username, setUsername] = useState('');
     const {setUser, setTodos} = useContext(TodoContext)
+    const [error, setError] = useState('')
     const activeSession = JSON.parse(localStorage.getItem('activeSession')) || []
     useEffect(() => {
         localStorage.removeItem("")
     })
     function handleClick() {
         if(username === ''){
+            return
+        }
+        else if(username.length > 10){
+            setError('Username should be less than')
+            setTimeout(() => {
+                setError('')
+            }, 2000)
             return
         }
         else{
@@ -43,7 +51,10 @@ export default function Welcome({isLoggedIn, setIsLoggedIn}) {
         <div className="welcome-container">
             <img className="logo-landing" src={logo} alt=""/>
             <div className="welcome">
-                <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
+                <div className="input">
+                    <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Enter Username" />
+                    {error && (<p className="error">{error}</p>)}
+                </div>
                 <button className="btn-next" onClick={handleClick}><span className="fas fa-arrow-right"></span></button>
             </div>
             {/* <p className="info">If you have already started session as one user please enter the same username</p> */}
