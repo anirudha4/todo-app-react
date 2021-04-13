@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { TodoContext } from '../contexts/TodoContext'
+import logo from '../logo.svg'
 
 export default function Welcome({isLoggedIn, setIsLoggedIn}) {
     const [username, setUsername] = useState('');
@@ -40,6 +41,7 @@ export default function Welcome({isLoggedIn, setIsLoggedIn}) {
     }
     return (
         <div className="welcome-container">
+            <img className="logo-landing" src={logo} alt=""/>
             <div className="welcome">
                 <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
                 <button className="btn-next" onClick={handleClick}><span className="fas fa-arrow-right"></span></button>

@@ -37,6 +37,13 @@ body {
   background-color: white;
   color: darkgoldenrod;
 }
+.welcome-container .logo-landing{
+  display: block;
+  position: absolute;
+  top: 100px;
+  width: 100px;
+  margin-bottom: 40px;
+}
 .welcome input{
   width: 300px;
   border-radius: 50px;
