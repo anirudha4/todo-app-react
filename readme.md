@@ -2,7 +2,7 @@
 
 # Project is live
 
-#### https://cool-todo-app-react.netlify.app/
+#### https://todo-ape.netlify.app/
 
 ## How to install and run the application
  
